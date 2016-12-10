@@ -1,15 +1,18 @@
 require 'securerandom'
 
-class ChatsController < ApplicationController    
-  
+class ChatsController < ApplicationController  
+  #before_action :get_message_no_read, only: [:change_sexo]
+  #caches_action :refresh_user_and_msn
+
+  #before_action :get_message_no_read, only: [:index, :user_online]
   def index
     chats = current_user.chats
     @existing_chats_users = current_user.existing_chats_users 
     _offline = Subscription.find_by(user_id: current_user.id)
     _offline.update(active: 0) unless _offline.nil?
     get_online
-    get_message_no_read
-
+    get_message_no_read    
+    inscrito_em
   end
 
   def create
@@ -27,8 +30,10 @@ class ChatsController < ApplicationController
   def show
     @other_user = UserPerfil.find(params[:other_user])
     @chat = Chat.find_by(id: params[:id])
-    Message.where(user_to: params[:user_id], user_id: params[:other_user]).update(status: 2)
-    @ativo = Subscription.where(chat_id: params[:id], user_id: params[:user_id]).update(active: 1)    
+    Message.where(user_to: params[:user_id], user_id: params[:other_user]).update_all(status: 2)
+    @ativo = Subscription.where(chat_id: params[:id], user_id: params[:user_id]).update(active: 1)
+    #@chat = Chat.find_by('id = ? AND created_at < ? AND created_at > ?',params[:id],(Time.current),(Time.current - 1.day))
+    get_message_no_read
     @message = Message.new
   end
 
@@ -41,33 +46,34 @@ class ChatsController < ApplicationController
     chats = current_user.chats    
     @existing_chats_users = current_user.existing_chats_users
     Subscription.where(user_id: current_user).update(active: false)
-    get_online
-    get_message_no_read
+    get_online    
   end
 
-  def refresh_user_and_msn
-    get_online
+  def change_sexo    
     get_message_no_read
-    render :user_online
-  end
-
-  def change_sexo      
-    if params[:option] == 'm' 
-      get_user_online(params[:option])
-      @genero = 'Masculino'
-    elsif params[:option] == 'f'
-      get_user_online(params[:option])
-      @genero = 'Feminino'
-    elsif params[:option] == 'i'
-      get_user_online(params[:option])
-      @genero = 'Indefinido'         
-    else
-      get_online
-      get_message_no_read    
-    end   
-     
-    render :user_online
-     
+    inscrito_em        
+    params[:option].nil? ? session[:option] = nil : session[:option] = params[:option];   
+    
+      if session[:option] == 'm'
+        @genero = 'Masculino'
+        get_user_online(params[:option])
+        render partial: 'online'
+      elsif session[:option] == 'f'
+        @genero = 'Feminino'
+        get_user_online(params[:option])
+        render partial: 'online'
+      elsif session[:option] == 'i'
+        @genero = 'Indefinido'
+        get_user_online(params[:option])
+        render partial: 'online'
+      elsif session[:option] == 't'        
+         get_user_online
+         render partial: 'online'
+      else
+        get_user_online
+        render :user_online
+      end
+    
   end
 
   
@@ -76,22 +82,19 @@ class ChatsController < ApplicationController
   end
 
   private
- 
   def find_chat(second_user)
     chats = current_user.chats
     chats.each do |chat|
       chat.subscriptions.each do |s|
-        if s.created_at.day.eql?(Time.current.day)
-          if (s.user_id == second_user.id) 
-            return chat
-          end
-        end  
+        if s.user_id == second_user.id
+          return chat
+        end
       end
     end
     nil
   end
-  def get_message_no_read    
-    @mesagens = Message.where(user_to: current_user.id, status: 1).group('user_id').count
+  def get_message_no_read
+    @mesagens = Message.where(user_to: current_user, status: true).group('user_id').count
   end
 
   def require_login
@@ -99,12 +102,23 @@ class ChatsController < ApplicationController
   end
 
   def get_online    
-    @user = InscriptionInTheEstablishment.where(client_id: session[:local_id])
-    @user_online = UserPerfil.where(is_login: true, block: false).where.not(id: session[:user_id])
+    @user_online = UserPerfil.where(is_login: true, block: false).where.not(id: current_user)    
   end
 
-  def get_user_online(user)    
-    @user_online = UserPerfil.where(sexo: user, is_login: true, block: false).where.not(id: session[:user_id])
+  def get_user_online(user='') 
+    get_message_no_read
+    if user.blank?      
+      get_message_no_read
+      get_online  
+    else
+      @user_online = UserPerfil.where(sexo: user, is_login: true, block: false).where.not(id: current_user)
+    end 
+    #render :user_online
+    #render partial: 'online'
+  end
+
+  def inscrito_em
+     @user = InscriptionInTheEstablishment.where(client_id: session[:local_id])
   end
 
 end

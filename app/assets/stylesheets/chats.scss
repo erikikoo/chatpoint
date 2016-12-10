@@ -7,9 +7,9 @@
 }
 .body {
  	 position: relative;
- 	 top: 70px; 	
- 	 margin-bottom: 80px;
- 	 color: rebeccapurple;	 
+ 	 top: 60px; 	
+ 	 margin-bottom: 70px; 	 
+
 }
 
 a {
@@ -142,39 +142,38 @@ a {
 .system-notice {
   position: fixed;
   bottom: 0 !important;
-  background-color: red;
+  background-color: rgb(238,238,238);
   width: 100vw;  
   height: 90px;
   div:first-child {
     border-radius: 100%;
-    width: 55px;
-    height: 55px;
-    background-color: green; 
+    width: 65px;
+    height: 65px;    
     position: relative;
     top:15px;   
     left: 7vw;
     text-align: center;
     line-height: .9;
     z-index: 2;
-
-    &:before {
-      content: 'Fale Conosco';
-      font-size: 1.2rem;
+    a {
       position: relative;
-      top: 10px;
-
-    }
+      top: 15px;
+      &:active, &:hover, &:link, &:visited {
+        color: rgba(0,0,0,0.6);
+      }
+    }    
   }
   div:last-child {
     position: relative;
     width: 80vw;    
     top: -37px;
     height: 50px;
-    background-color: blue;
-    left: 10vw;
+    background-color: rgba(238,238,238,0.3);
+    left: 14vw;
+    word-wrap: break-word;
     span {
-      position: relative;
-      top: 14px;
+      position: relative;      
+      left: 43px;      
     }
   }
 }
@@ -187,6 +186,7 @@ a {
  	bottom: 3px !important;
  	height: 40px;
  	border: none;
+
  }
 
 
@@ -202,8 +202,10 @@ a {
      clear: both;
      font-size: 1.4rem;
      border-radius: 5px;
+     border-radius-left: 5px;
      max-width: 80%;
      word-wrap: break-word;
+     -moz-margin-bottom: 80px;
  }
 
 
@@ -219,11 +221,13 @@ a {
      color: #4b4b4b;  
      clear: both;      
      font-size: 1.4rem; 
+     border-radius-left: 5px;
  	   border-radius: 5px;
  	   max-width: 80%;	
  	   height: auto;
 	   position: relative;
  	   word-wrap: break-word;	
+     -moz-margin-bottom: 80px;
  }
 
  .scroll {
@@ -260,10 +264,12 @@ a {
 	 bottom: 0;
  	 padding-left: 30px; 
  	 margin: 0;
-   textarea {
+   
+   textarea {    
     width: 92vw;
     padding: 10px 30px 0;
     color: rgba(0,0,0,.8);
+    
    }
  }
 
@@ -362,7 +368,7 @@ a {
  	word-wrap: break-word;
  	span {
  		position: relative;
- 		top: -9px;
+ 		top: -6px;
  		font-size: 1rem;		
  	}
  }
@@ -486,12 +492,12 @@ a {
 // /*--------------------
 // Messages
 // --------------------*/
- .messages {
+ .msn {
    flex: 1 1 auto;
    color: rgba(255, 255, 255, .5);
    overflow: hidden;
    position: relative;
-   margin: 20px 0;
+   margin: 10px 0;
   
    & .messages-content {
      position: absolute;
@@ -707,6 +713,45 @@ a {
    }
  }
 
-#message {
-  overflow-x: scroll;
+.btn-toBottom {
+  border-radius: 100%;
+  background: green;  
+  width: 30px;
+  position: fixed;
+  height: 30px;   
+  bottom: 100px;
+  right: 10vw;
+  background-image: url('iconToBotton.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  display: none;
+  cursor: pointer;
+  z-index: 99;
 }
+#messages {
+    position: relative;
+    margin-bottom: 50px;    
+    & div:last-child {    
+      margin-bottom: 15px;
+      position: relative;
+
+    }
+  }
+
+@-moz-document url-prefix() {
+  #messages {
+    position: relative;
+    margin-bottom: 50px;    
+    & div:last-child {    
+      margin-bottom: 80px;
+      position: relative;
+
+    }
+  }
+  .body {
+     position: relative;
+     top: 60px;    
+     -moz-margin-bottom: 100px;    
+  }
+}
+

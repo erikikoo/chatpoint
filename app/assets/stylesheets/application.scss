@@ -13,10 +13,16 @@
  *= require_tree .
  *= require_self
  *= require bootstrap-toggle
- 
-	*= require bootstrap-datetimepicker
+ *= require bootstrap-datepicker
+ *= require bootstrap-datetimepicker
  
  */
+.datepicker {
+	position: relative;
+	left: 50vw;
+}
+
+
 a:hover {
 	background-color: transparent;
 }

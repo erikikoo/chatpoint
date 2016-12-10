@@ -15,7 +15,13 @@ class MensagemsController < ApplicationController
   # GET /mensagems/new
   def new
     @mensagem = Mensagem.new
-    @mensagems = Mensagem.all.includes('users')
+    if params[:location]
+      session[:location] = params[:location]  
+    else  
+      @mensagems = Mensagem.all.includes('users')
+    end
+    
+    
   end
 
   # GET /mensagems/1/edit
@@ -27,9 +33,13 @@ class MensagemsController < ApplicationController
   # POST /mensagems.json
   def create
     @mensagem = Mensagem.new(mensagem_params)
-    if @mensagem.user_id.nil?
-      @mensagem.user_id = current_user.id
+    
+    if session[:admin_id]
+      @mensagem.user_id =  session[:admin_id]
       @mensagem.all = true
+    elsif session[:location]         
+        @mensagem.user_id = current_user.id
+        @mensagem.all = false
     end
     if @mensagem.all
       get_all_mensagem('sistema')
@@ -38,7 +48,11 @@ class MensagemsController < ApplicationController
     end 
     
     if @mensagem.save  
-      render 'mensagems/admin/admin'      
+      if session[:location]
+        redirect_to "/#{session[:local_name]}/chats"        
+      else
+        render 'mensagems/admin/admin'      
+      end
     else
       render :new         
     end

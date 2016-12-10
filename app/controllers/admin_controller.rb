@@ -1,6 +1,5 @@
 class AdminController < ApplicationController
-	layout 'admin'
-	
+	layout 'admin'	
 	before_action :logado?
 	
 	def index

@@ -5,16 +5,16 @@
   <div class="form-inputs">
     
     <%= f.input :celular, input_html: {class: 'form-control'} %>
-    <%= f.input :email, input_html: {class: 'form-control'} %>
+    <%= f.input :email, as: :email,input_html: {class: 'form-control'} %>
     
-    <%= f.input :nascimento, as: :date ,end_year: Date.today.year,input_html: { class: 'form-control'} %>
+    <%= f.input :nascimento ,as: :string, input_html: { class: 'form-control', "data-provide" => "datepicker" } %>
     
     <%= f.collection_radio_buttons :sexo, [['m', 'Masculino'] ,['f', 'Feminino'], ['i','Indeferido']], :first, :last, input_html: { class: 'form-control' } %>
     
     <%= f.input :cidade, input_html: {class: 'form-control'} %>
     <%= f.input :bairro, input_html: {class: 'form-control'} %>
     
-    <%= f.simple_fields_for :user do |up| %>
+    <%= f.simple_fields_for :user do |up| %>      
       <%= up.input :username, input_html: { class: 'form-control'} %>
       <%= up.input :password , input_html: { class: 'form-control' }%>
       <%= up.input :password_confirmation, label: 'Digite sua senha novamente',input_html: {class: 'form-control'} %>
@@ -29,3 +29,19 @@
   </div>
 <% end %>
 </section>
+
+<script>
+  jQuery(document).ready(function($) {
+    // masrcara para o form phone
+      var SPMaskBehavior = function (val) {
+      return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+      },
+        spOptions = {
+          onKeyPress: function(val, e, field, options) {
+            field.mask(SPMaskBehavior.apply({}, arguments), options);
+          }
+      };  
+    $('#user_perfil_celular').mask(SPMaskBehavior, spOptions);  
+
+  });
+</script>

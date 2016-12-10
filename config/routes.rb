@@ -8,15 +8,21 @@ Rails.application.routes.draw do
   #temporary root path for now 
   resources :messages, only:[:create]
 
-  resources :users, only:[:new, :create, :block,:edit, :update] do
-   resources :chats, only: [:index, :show, :create]
+  resources :users, only:[:new, :create, :block,:edit, :update], :path => "usuarios" do
+   resources :chats, only: [:index, :show, :create], :path => "chats"
   end 
 
-  resources :clients
-
-  resources :sessions, only:[:new, :destroy, :create]
-  resources :clients_sessions, only:[:new, :destroy, :create]  
-  resources :admin_session, only:[:new, :destroy, :create]
+  resources :clients, :path => 'cliente'
+  
+  scope(:path_names => {:new => 'login', :destroy => 'logout', :create => 'cadastrar' }) do
+    resources :sessions, only:[:new, :destroy, :create], :path => "usuario"
+  end
+  scope(:path_names => {:new => 'login', :destroy => 'logout', :create => 'cadastrar' }) do
+    resources :clients_sessions, only:[:new, :destroy, :create], :path => "cliente"  
+   end 
+  scope(:path_names => {:new => 'login', :destroy => 'logout', :create => 'cadastrar' }) do
+    resources :admin_session, only:[:new, :destroy, :create], :path => "administrador"  
+  end  
 
   get  '/:comercio/gerencia'  => 'clients_sessions#new'
   post '/:comercio/gerencia'  => 'clients_sessions#create'
@@ -56,7 +62,8 @@ Rails.application.routes.draw do
  
   get '/registe_to_establishment'  => "sessions#registe_to_establishment"
 
-
+  get '/new/mensagem/:location' => 'mensagems#new'
+  get '/new/mensagem/:location' => 'mensagems#create'
   #admin client
    get '/select_client'            => 'clients#select_client'
    get '/select_user'              => 'user_perfils#select_user'

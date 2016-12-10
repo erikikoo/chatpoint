@@ -1,1 +1,6 @@
-$('#painel-admin').html('<%= escape_javascript (render "mensagems/form") %>');
+<% if session[:location] %>
+	$('#product-modal').html('<%= escape_javascript (render "mensagems/form-chat") %>');
+	$("#product-modal").modal("show");
+<% else %>
+	$('#painel-admin').html('<%= escape_javascript (render "mensagems/form") %>');
+<% end %>

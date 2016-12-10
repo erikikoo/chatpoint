@@ -5,8 +5,7 @@
 			  <% @existing_chats_users.each do |other_user| %>
 			  	<% if other_user.user.id != current_user.id %>
 				    <li class='list-group-item'>
-				    	<%= get_avatar(other_user,'chat')%>
-				    	
+				      <%= get_avatar(other_user,'chat')%>				    	
 				      <%= link_to(user_chats_path(current_user, :other_user => other_user.id), method: :post) do %>
 				      <%= other_user.username %>
 				      <% end %>

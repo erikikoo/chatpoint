@@ -8,7 +8,7 @@
     <span><%= @other_user.user.username %>  </span>
   </div>  
 </div>
-<div class='body row'>
+<div class='body row' id='body'>
   <% if @chat.messages.any? %>
     <div id="messages">
       <%= render partial: 'messages/message', collection: @chat.messages.order(id: :asc)%>      
@@ -22,11 +22,30 @@
   <%= render partial: 'messages/message_form', locals: {message: @message, chat: @chat}%>
 </div>
 
+<span class="btn-toBottom"></span>
 </div>
 <script>
+     
   createMessageChannel();
   messageForm();
   //defaults scrolling to bottom
+  $('.btnEnviarMensagem').click(function (e) {  
+    var alt = $(document).height();
+      $('html, body').animate({scrollTop: alt}, 800);      
+  });
+  jQuery(document).ready(function($) {
+  var alt = $(this).height();  
   
-  $("#messages").scrollTop($("#messages").scrollHeight);
+  if (alt > $(document).scrollTop()) {
+     
+     $("html, body").animate({ scrollTop: $(document).height() }, 800); 
+  }
+    
+  });
+
+  $('.btn-toBottom').click(function(event) {      
+    var alt = parseInt($(document).height());
+    $('html, body').animate({scrollTop: alt+200}, 800);    
+    $('#message_content').focus();
+});
 </script>

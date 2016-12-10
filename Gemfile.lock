@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/activerecord-hackery/ransack.git
-  revision: cdf0bec982b9866f29a527a2390ebd1551fbd65a
+  revision: 7dcfbf38a56212e1f9af200bce449f0df8031e86
   specs:
     ransack (1.8.2)
       actionpack (>= 3.0)
@@ -68,6 +68,8 @@ GEM
     arel (7.1.4)
     aws_cf_signer (0.1.3)
     bcrypt-ruby (3.1.1.rc1)
+    bootstrap-datepicker-rails (1.6.4.1)
+      railties (>= 3.0)
     bootstrap-toggle-rails (2.2.1.0)
     bootstrap3-datetimepicker-rails (4.17.43)
       momentjs-rails (>= 2.8.1)
@@ -87,11 +89,11 @@ GEM
     coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.10.0)
+    coffee-script-source (1.11.1)
     commonjs (0.2.7)
     concurrent-ruby (1.0.2)
     debug_inspector (0.0.2)
-    domain_name (0.5.20161021)
+    domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
     execjs (2.7.0)
@@ -101,7 +103,7 @@ GEM
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.7.0)
-    jbuilder (2.6.0)
+    jbuilder (2.6.1)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
     jquery-rails (4.2.1)
@@ -120,13 +122,14 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    maskedinput-rails (1.4.0.0)
     method_source (0.8.2)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     mimemagic (0.3.2)
     mini_portile2 (2.1.0)
-    minitest (5.9.1)
+    minitest (5.10.1)
     momentjs-rails (2.15.1)
       railties (>= 3.1)
     multi_json (1.12.1)
@@ -138,7 +141,7 @@ GEM
     pg (0.19.0-x64-mingw32)
     polyamorous (1.3.1)
       activerecord (>= 3.0)
-    puma (3.6.1)
+    puma (3.6.2)
     rack (2.0.1)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -173,7 +176,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (11.3.0)
+    rake (12.0.0)
     redis (3.3.2)
     remotipart (1.3.1)
     rest-client (2.0.0-x64-mingw32)
@@ -198,7 +201,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    thor (0.19.1)
+    thor (0.19.4)
     thread_safe (0.3.5)
     tilt (2.0.5)
     turbolinks (5.0.1)
@@ -206,9 +209,9 @@ GEM
     turbolinks-source (5.0.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2016.9)
+    tzinfo-data (1.2016.10)
       tzinfo (>= 1.0.0)
-    uglifier (3.0.3)
+    uglifier (3.0.4)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
@@ -227,6 +230,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt-ruby (= 3.1.1.rc1)
+  bootstrap-datepicker-rails
   bootstrap-toggle-rails
   bootstrap3-datetimepicker-rails (~> 4.17.43)
   byebug
@@ -235,6 +239,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   jbuilder (~> 2.5)
   jquery-rails
+  maskedinput-rails
   momentjs-rails (>= 2.9.0)
   mysql2 (>= 0.3.18, < 0.5)
   pg

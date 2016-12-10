@@ -77,3 +77,8 @@ gem 'ransack', github: 'activerecord-hackery/ransack'
 gem 'remotipart', '~> 1.2'
 #paginação
 gem 'will_paginate', github: 'jonatack/will_paginate'
+#gem datepicker
+gem 'bootstrap-datepicker-rails'
+
+#jquery mask
+gem 'maskedinput-rails'

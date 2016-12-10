@@ -9,8 +9,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by(username: login_params[:username])
-    
+    @user = User.find_by(username: login_params[:username])    
+
     if @user && @user.authenticate(login_params[:password]) 
        session[:user_id] = @user.id
        cookies.signed[:user_id] = @user.id

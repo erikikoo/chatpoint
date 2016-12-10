@@ -14,12 +14,14 @@
 //= require jquery_ujs
 
 //= require moment
-//= require bootstrap-datetimepicker
+//= require bootstrap-datepicker
+//= require bootstrap-datepicker/locales/bootstrap-datepicker.pt-BR.js
 //= require twitter/bootstrap/modal
 
 //= require jquery.remotipart
 //= require turbolinks
 //= require bootstrap-toggle
+//= require maskedinput
 //= require_tree .
 //= require_tree ./channels
 
@@ -29,28 +31,32 @@ $(document).on('ready page:change', function() {
 
 });
 
+function msnToBotton(alt) {
+	var alt = parseInt($(document).height());
+	var cal = alt + 200;
+	$('html, body').animate({scrollTop: cal}, 800);
+}
+
 jQuery(document).ready(function($) {
 	
+	$.fn.datepicker.defaults.language = 'pt-BR';	
 	var local = window.location.pathname;
 	var temp = local.slice(-6);
 	
 	if (temp == '/chats') {
 		setInterval(function(){
 			getUserOnline();
-		},5000);
+		},10000);
 	}
 
+	var alt = $(this).height();	
+	if (alt > $(this).scrollTop()) {
+		$("message-content").focus();
+		msnToBotton(alt);
+	}
 	
-	
-	
+  
 
-	// $('#client_cliente').blur(function(event) {
-	// 	 var cliente = $(this).value();
-	// 	// var url = window.location.pathname +"/"+cliente;
-	// 	// $("#client_url").attr('disabled', 'disabled').value(url);
-	// 	alert(cliente);
-
-	// });
 });
 
 function getUserOnline() {
@@ -71,7 +77,33 @@ function getUserOnline() {
 
 
 
+$(document).keypress(function (e) {      
+        if(e.keyCode == 13) {
+			var doc = $(document);
+			var alt = doc.height();
+			if ($(document).scrollTop() > alt-800) {
+				msnToBotton(alt)
+			}	
+		}
+	});
 
 
 
+$(window).scroll(function(event) {
+	var alt = parseInt($(document).height());
+	
+	if ($(document).scrollTop() < alt-1300) {		
+		$('.btn-toBottom').fadeIn(400);
+	} else {
+		$('.btn-toBottom').fadeOut(400);
+	}
+});
 
+$('.btn-toBottom').click(function(event) {      
+    var alt = $(document).height();
+    msnToBotton(alt);
+});
+
+$('.datepicker').datepicker({    
+      'autoclose': true
+    });    

@@ -1,6 +1,9 @@
 production:
   adapter: redis
+  #este é onde está o produto final
   url: redis://redistogo:781ef13ea49b67784918d1f6ca4131ed@crestfish.redistogo.com:10579/
+  
+  
 
 development:
   adapter: async

@@ -8,7 +8,7 @@ function messageForm(){
           if(messageBox.is(":focus") && !shiftDown) {            
             e.preventDefault(); // prevent another \n from being entered
             chatForm.submit();
-            $(chatForm).trigger('reset');            
+            $(chatForm).trigger('reset');              
           }
         }  
       
@@ -19,7 +19,9 @@ function messageForm(){
       e.preventDefault(); // prevent another \n from being entered
       chatForm.submit();
       $(chatForm).trigger('reset');
-      messageBox.focus();     
+      messageBox.focus(); 
+      
+       
       
   });
 
