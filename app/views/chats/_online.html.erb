@@ -1,6 +1,6 @@
 <div class="row">
 <%if @user_online.empty? %>
-	<h5 class='text-center'>Não existe usuário <%= @genero %> on-line no momento!</h5>
+	<h5 class='text-center'>Não existe usuário <%= session[:genero] %> on-line no momento!</h5>
 <%elsif%>
 	  	<section class='col-xs-12'>
 		    <% @user_online.each do |other_user| %>		

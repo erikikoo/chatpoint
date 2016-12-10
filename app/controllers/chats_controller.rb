@@ -1,10 +1,6 @@
 require 'securerandom'
 
-class ChatsController < ApplicationController  
-  #before_action :get_message_no_read, only: [:change_sexo]
-  #caches_action :refresh_user_and_msn
-
-  #before_action :get_message_no_read, only: [:index, :user_online]
+class ChatsController < ApplicationController    
   def index
     chats = current_user.chats
     @existing_chats_users = current_user.existing_chats_users 
@@ -51,28 +47,37 @@ class ChatsController < ApplicationController
 
   def change_sexo    
     get_message_no_read
-    inscrito_em        
-    params[:option].nil? ? session[:option] = nil : session[:option] = params[:option];   
-    
-      if session[:option] == 'm'
-        @genero = 'Masculino'
-        get_user_online(params[:option])
-        render partial: 'online'
-      elsif session[:option] == 'f'
-        @genero = 'Feminino'
-        get_user_online(params[:option])
-        render partial: 'online'
-      elsif session[:option] == 'i'
-        @genero = 'Indefinido'
-        get_user_online(params[:option])
-        render partial: 'online'
-      elsif session[:option] == 't'        
-         get_user_online
-         render partial: 'online'
-      else
-        get_user_online
-        render :user_online
-      end
+    inscrito_em           
+   
+    session[:option] = params[:option];   
+   
+
+    if session[:option].eql?('m')
+      session[:genero] = 'Masculino'
+      get_user_online(params[:option])
+    elsif session[:option].eql?('f')
+      session[:genero] = 'Feminino'
+      get_user_online(params[:option])        
+    elsif session[:option].eql?('i')
+      session[:genero] = 'Indefinido'
+      get_user_online(params[:option])        
+    elsif session[:option].eql?('t') or params[:option].nil?
+       get_user_online               
+    end
+    render partial: 'online'
+  end
+
+  def refresh
+     get_message_no_read
+    inscrito_em
+    if session[:option] and session[:option] != 't'      
+      get_user_online(session[:option])      
+      render :user_online
+    else
+      get_user_online
+      render :user_online  
+    end
+   
     
   end
 
@@ -94,7 +99,7 @@ class ChatsController < ApplicationController
     nil
   end
   def get_message_no_read
-    @mesagens = Message.where(user_to: current_user, status: true).group('user_id').count
+    @mesagens = Message.where(user_to: current_user, status: 1).group('user_id').count
   end
 
   def require_login
@@ -106,15 +111,16 @@ class ChatsController < ApplicationController
   end
 
   def get_user_online(user='') 
-    get_message_no_read
-    if user.blank?      
-      get_message_no_read
+    
+    if user.blank?  
       get_online  
+      #render :user_online  
     else
       @user_online = UserPerfil.where(sexo: user, is_login: true, block: false).where.not(id: current_user)
+      #render partial: 'online'      
     end 
-    #render :user_online
-    #render partial: 'online'
+    
+    
   end
 
   def inscrito_em

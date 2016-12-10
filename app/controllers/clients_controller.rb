@@ -52,11 +52,7 @@ class ClientsController < ApplicationController
 
 	def gerar_senha(size = 10)
 		charset = %w{ 2 3 4 6 7 9 A C D E F G H J K M N P Q R T V W X Y Z}
-  		@senha = (0...size).map{ charset.to_a[rand(charset.size)] }.join
-
-		#ClientPassword.create(client_id: session[:client_id], password_digest: @senha)
-		#get_last_password
-		
+  		@senha = (0...size).map{ charset.to_a[rand(charset.size)] }.join		
 	end
 
 	def change_password
